@@ -1,0 +1,48 @@
+[
+   {
+      "countryDialCode": "",
+      "email": "",
+      "firstName": "",
+      "lastName": "",
+      "mobilePhone": "",
+      "password": "Password1",
+      "terms":"true"
+   },
+   {  
+      "Language":"Punjabi",
+      "LanguageLevel":"Fluent",
+      "Skill":"API Testing",
+      "ExperienceLevel":"Beginner",
+      "PersonSkill":"1"
+   },
+   {
+
+      "CertificationName":"ISTQB",
+      "CertifiedFrom":"Adobe",
+      "CertificationYear":"2019",
+      "id":"0"
+   },
+   {
+      "Language":"",
+      "LanguageLevel":"",
+      "Skill":"",
+      "ExperienceLevel":"",
+      "PersonSkill":"", 
+      "CertificationName":"",
+      "CertifiedFrom":"",
+      "CertificationYear":""
+   },
+   {
+      "Language":"@#$%^&123As",
+      "LanguageLevel":"Basic",
+      "Skill":"@#$%^&76564RSSSRSas",
+      "ExperienceLevel":"Expert",
+      "PersonSkill":"0"
+  },
+  {
+      "CertificationName":"@#$%5467546ase^&",
+      "CertifiedFrom":"Training Institute",
+      "CertificationYear":"2024",
+      "id":"1"
+   }
+]

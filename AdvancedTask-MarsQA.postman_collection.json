@@ -1,0 +1,4823 @@
+{
+	"info": {
+		"_postman_id": "435b213a-7f1a-4b1d-9628-f1f6f90eacc3",
+		"name": "AdvancedTask-MarsQA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6035237"
+	},
+	"item": [
+		{
+			"name": "Positive Scenarios",
+			"item": [
+				{
+					"name": "authentication",
+					"item": [
+						{
+							"name": "Signin",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Parse the response body as JSON\r",
+											"var jsonData = pm.response.json();\r",
+											"// Check if the response is successful\r",
+											"if(jsonData.isSuccess)\r",
+											"{\r",
+											"    // Extract the token from the response\r",
+											"    var token = jsonData.token.token;\r",
+											"\r",
+											"    //set the token as an environment variable\r",
+											"    pm.environment.set(\"authToken\",token);\r",
+											"\r",
+											"    //optionally log the token to the postman\r",
+											"    console.log(\"Token has been set as environment variable:\", token);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"    //handle the case where the response is not successful\r",
+											"    console.log(\"Login was not successful.\");\r",
+											"}\r",
+											"pm.test(\"Response status code is 200\",function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"});\r",
+											"pm.test(\"Login Credentials Valid\",function (){\r",
+											"var jsonData = pm.response.json();\r",
+											"pm.expect(jsonData.isSuccess).to.eql(true)\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json;charset=utf-8",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"aisharya994@gmail.com\",\r\n    \"password\":\"Aish@30\",\r\n    \"rememberme\":\"false\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/signin",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"signin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if success is true\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.isSuccess).to.be.true;\r",
+											"// });\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Language has been deleted successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"language\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"language\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"//  });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 4000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"countryDialCode\": \"+64\",\r\n  \"email\": \"test16e1uffr@gmail.com\",\r\n  \"firstName\": \"test027\",\r\n  \"lastName\": \"sharmaup000\",\r\n  \"mobilePhone\": \"2456812575\",\r\n  \"password\": \"Password1\",\r\n  \"terms\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:60968/authentication/authentication/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "60968",
+									"path": [
+										"authentication",
+										"authentication",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Language",
+					"item": [
+						{
+							"name": "AddLanguage ",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"LanguageId\", responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Language has been added successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											"var positiveSchema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"var negativeSchema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"message\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"message\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Validate response schema\", function()\r",
+											"{\r",
+											"    if(responseBody.success === true)\r",
+											"    {\r",
+											"       pm.response.to.have.jsonSchema(positiveSchema);\r",
+											"    }else if(responseBody.success === false)\r",
+											"    {\r",
+											"        pm.response.to.have.jsonSchema(negativeSchema);\r",
+											"    }else \r",
+											"    {\r",
+											"        pm.expect.fail(\"Invalid response\");\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 6000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(6000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json;charset=utf-8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"level\": \"{{LanguageLevel}}\",\r\n  \"name\": \"{{Language}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/addLanguage",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"addLanguage"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateLanguage",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Language has been updated successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"message\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"message\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Validate schema\", function()\r",
+											"{\r",
+											"    pm.response.to.have.jsonSchema(schema)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 2000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0OTgyNjM4LCJleHAiOjE3MjQ5ODYyMzgsInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.vnaMxYwYUA94cCIZ0ypu5IO3vm1BVWnhbByFg4t_VF4",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{LanguageId}}\",\r\n  \"name\": \"{{updateLanguage}}\",\r\n  \"level\": \"{{updateLanguageLevel}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/updateLanguage",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"updateLanguage"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLanguage",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"array\",\r",
+											"  \"items\": {\r",
+											"    \"type\": \"object\",\r",
+											"    \"properties\": {\r",
+											"      \"personLanguageId\": {\r",
+											"        \"type\": \"string\"\r",
+											"      },\r",
+											"      \"language\": {\r",
+											"        \"type\": \"string\"\r",
+											"      },\r",
+											"      \"languageLevel\": {\r",
+											"        \"type\": \"string\"\r",
+											"      }\r",
+											"    },\r",
+											"    \"required\": [\r",
+											"      \"personLanguageId\",\r",
+											"      \"language\",\r",
+											"      \"languageLevel\"\r",
+											"    ]\r",
+											"  }\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Validate schema\", function()\r",
+											"{\r",
+											"    pm.response.to.have.jsonSchema(schema)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 2000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json;charset=utf-8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"personLanguageId\": \"{{LanguageId}}\",\r\n  \"language\": \"{{Language}}\",\r\n  \"languageLevel\": \"{{LanguageLevel}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/getLanguage",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"getLanguage"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Skills",
+					"item": [
+						{
+							"name": "AddSkill",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"SkillId\", responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if success is true\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.isSuccess).to.be.true;\r",
+											"// });\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Skill has been added successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											"var positiveSchema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"var negativeSchema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"message\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"message\"\r",
+											"  ]\r",
+											"}\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 2000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"ExperienceLevel\": \"{{ExperienceLevel}}\",\r\n  \"PersonSkillId\": \"{{PersonSkillId}}\",\r\n  \"Skill\": \"{{Skill}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/addSkill",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"addSkill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getSkill",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"SkillId\", responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if success is true\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.isSuccess).to.be.true;\r",
+											"// });\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Skill has been added successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											"var positiveSchema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"var negativeSchema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"message\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"message\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 1000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"ExperienceLevel\": \"{{ExperienceLevel}}\",\r\n  \"PersonSkillId\": \"{{SkillId}}\",\r\n  \"Skill\": \"{{Skill}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/getSkill",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"getSkill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateSkill",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if success is true\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.isSuccess).to.be.true;\r",
+											"// });\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Skill has been updated successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"//  {\r",
+											"//      pm.response.to.have.jsonSchema(schema)\r",
+											"//  });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 2000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"ExperienceLevel\": \"{{updateSkillLevel}}\",\r\n  \"PersonSkillId\": \"{{SkillId}}\",\r\n  \"Skill\": \"{{updateSkill}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/updateSkill",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"updateSkill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteSkill",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if success is true\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.isSuccess).to.be.true;\r",
+											"// });\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Skill has been deleted successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"skill\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"skill\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"//  });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 1000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"ExperienceLevel\": \"{{deleteSkillLevel}}\",\r\n  \"PersonSkillId\": \"{{SkillId}}\",\r\n  \"Skill\": \"{{deleteSkill}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/deleteSkill",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"deleteSkill"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Certifications",
+					"item": [
+						{
+							"name": "addCertification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"CertificationId\", responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if success is true\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.success).to.be.true;\r",
+											"// });\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Certification has been added successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											"var positiveSchema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"var negativeSchema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"message\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"message\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate response schema\", function()\r",
+											"// {\r",
+											"//     if(responseBody.success === true)\r",
+											"//     {\r",
+											"//        pm.response.to.have.jsonSchema(positiveSchema);\r",
+											"//     }else if(responseBody.success === false)\r",
+											"//     {\r",
+											"//         pm.response.to.have.jsonSchema(negativeSchema);\r",
+											"//     }else \r",
+											"//     {\r",
+											"//         pm.expect.fail(\"Invalid response\");\r",
+											"//     }\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 1000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"certificationFrom\": \"{{CertifiedFrom}}\",\r\n  \"certificationName\": \"{{CertificationName}}\",\r\n  \"certificationYear\": \"{{CertificationYear}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/addCertification",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"addCertification"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getCertification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if success is true\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.isSuccess).to.be.true;\r",
+											"// });\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Certification has been updated successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											" var positiveSchema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"var negativeSchema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"message\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"message\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate response schema\", function()\r",
+											"// {\r",
+											"//     if(responseBody.success === true)\r",
+											"//     {\r",
+											"//        pm.response.to.have.jsonSchema(positiveSchema);\r",
+											"//     }else if(responseBody.success === false)\r",
+											"//     {\r",
+											"//         pm.response.to.have.jsonSchema(negativeSchema);\r",
+											"//     }else \r",
+											"//     {\r",
+											"//         pm.expect.fail(\"Invalid response\");\r",
+											"//     }\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 2000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"certificationFrom\": \"{{CertifiedFrom}}\",\r\n  \"certificationName\": \"{{CertificationName}}\",\r\n  \"certificationYear\": \"{{CertificationYear}}\",\r\n  \"id\": \"{{CertificationId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/getCertification",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"getCertification"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "profile",
+					"item": [
+						{
+							"name": "profile/addInfo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if isDeactivated is false\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.isDeactivated).to.be.false;\r",
+											"// });\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"username\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"isDeactivated\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"username\",\r",
+											"    \"isDeactivated\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Response time is within 500\", function()\r",
+											"// {\r",
+											"//    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"// });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"description\": \"{{Description}}\",\r\n  \"personId\": \"{{personId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/addInfo",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"addInfo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "profile/getProfile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if isDeactivated is false\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.isDeactivated).to.be.false;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"username\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"isDeactivated\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"username\",\r",
+											"    \"isDeactivated\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Validate schema\", function()\r",
+											"{\r",
+											"    pm.response.to.have.jsonSchema(schema)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 500\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(700);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"isDeactivated\": \"{{isDeactivated}}\",\r\n  \"username\": \"{{username}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/getProfile",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"getProfile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "profile/updateFirstAndLastName",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if isDeactivated is false\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.isDeactivated).to.be.false;\r",
+											"// });\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"username\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"isDeactivated\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"username\",\r",
+											"    \"isDeactivated\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 500\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{FirstName}}\",\r\n  \"lastName\": \"{{LastName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/updateFirstAndLastName",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"updateFirstAndLastName"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "emptyprofile/addInfo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if isDeactivated is false\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.isDeactivated).to.be.false;\r",
+											"// });\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"username\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"isDeactivated\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"username\",\r",
+											"    \"isDeactivated\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Response time is within 500\", function()\r",
+											"// {\r",
+											"//    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"// });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0NzIyMjIyLCJleHAiOjE3MjQ3MjU4MjIsInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.aVZuo1nyEbvNn76yhCl5Up3Hsr0Vw_KTtB0V2yhwtK0",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"description\": \"\",\r\n  \"personId\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/addInfo",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"addInfo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "profile/getProfilePhoto",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if isDeactivated is false\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.isDeactivated).to.be.false;\r",
+											"// });\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"username\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"isDeactivated\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"username\",\r",
+											"    \"isDeactivated\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 500\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"countryDialCode\": \"+64\",\r\n  \"email\": \"aisharya994@gmail.com\",\r\n  \"firstName\": \"aish\",\r\n  \"lastName\": \"arya\",\r\n  \"mobilePhone\": \"2108151490\",\r\n  \"password\": \"Aish@13\",\r\n  \"terms\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/getProfilePhoto",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"getProfilePhoto"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "profile/getSellerDetails",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if isDeactivated is false\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.isDeactivated).to.be.false;\r",
+											"// });\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"username\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"isDeactivated\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"username\",\r",
+											"    \"isDeactivated\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 500\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"countryDialCode\": \"+64\",\r\n  \"email\": \"aisharya994@gmail.com\",\r\n  \"firstName\": \"aish\",\r\n  \"lastName\": \"arya\",\r\n  \"mobilePhone\": \"2108151490\",\r\n  \"password\": \"Aish@13\",\r\n  \"terms\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/getSellerDetails",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"getSellerDetails"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "profile/isUserAuthenticated",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"// pm.test(\"Check if isDeactivated is false\", function()\r",
+											"// {\r",
+											"//    pm.expect(responseBody.isDeactivated).to.be.false;\r",
+											"// });\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"username\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"isDeactivated\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"username\",\r",
+											"    \"isDeactivated\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 500\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"isAuthenticated\": \"{{isAuthenticated}}\",\r\n  \"username\": \"{{username}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/isUserAuthenticated",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"isUserAuthenticated"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateAvailability",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"AvailabilityType\": \"1\",\r\n  \"AvailableHours\": \"1\",\r\n  \"EarnTarget\": \"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/updateAvailability",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"updateAvailability"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "notification",
+					"item": [
+						{
+							"name": "notification/getNewNotificationCount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is true\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.true;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"noOfNotification\": {\r",
+											"      \"type\": \"number\"\r",
+											"    },\r",
+											"    \"noOfMessages\": {\r",
+											"      \"type\": \"number\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"noOfNotification\",\r",
+											"    \"noOfMessages\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											" pm.test(\"Validate schema\", function()\r",
+											" {\r",
+											"    pm.response.to.have.jsonSchema(schema)\r",
+											" });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 1000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lOo",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"success\": true,\r\n  \"noOfNotification\": 64,\r\n  \"noOfMessages\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url1}}/getNewNotificationCount",
+									"host": [
+										"{{url1}}"
+									],
+									"path": [
+										"getNewNotificationCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "notification/getNotification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"noOfNotification\": {\r",
+											"      \"type\": \"number\"\r",
+											"    },\r",
+											"    \"noOfMessages\": {\r",
+											"      \"type\": \"number\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"noOfNotification\",\r",
+											"    \"noOfMessages\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											" pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 4000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lOo",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"noOfMessages\":\"{{noOfMessages}}\",\r\n    \"noofnotification\":\"{{noofnotification}}\",\r\n    \"success\":\"{{success}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url1}}/getNotification",
+									"host": [
+										"{{url1}}"
+									],
+									"path": [
+										"getNotification"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "notification/readAllNotifications",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"noOfNotification\": {\r",
+											"      \"type\": \"number\"\r",
+											"    },\r",
+											"    \"noOfMessages\": {\r",
+											"      \"type\": \"number\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"noOfNotification\",\r",
+											"    \"noOfMessages\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 1000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lOo",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"noOfMessages\":\"{{noOfMessages}}\",\r\n    \"noofnotification\":\"{{noofnotification}}\",\r\n    \"success\":\"{{success}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url1}}/readAllNotifications",
+									"host": [
+										"{{url1}}"
+									],
+									"path": [
+										"readAllNotifications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "notification/readMarkedNotifications",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is false\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.false;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"noOfNotification\": {\r",
+											"      \"type\": \"number\"\r",
+											"    },\r",
+											"    \"noOfMessages\": {\r",
+											"      \"type\": \"number\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"noOfNotification\",\r",
+											"    \"noOfMessages\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 1000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lOo",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"ids\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url1}}/readMarkedNotifications?ids=<string>",
+									"host": [
+										"{{url1}}"
+									],
+									"path": [
+										"readMarkedNotifications"
+									],
+									"query": [
+										{
+											"key": "ids",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "notification/removeMarkedNotifications",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is false\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.false;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"noOfNotification\": {\r",
+											"      \"type\": \"number\"\r",
+											"    },\r",
+											"    \"noOfMessages\": {\r",
+											"      \"type\": \"number\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"noOfNotification\",\r",
+											"    \"noOfMessages\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 1000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lOo",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url1}}/removeMarkedNotifications",
+									"host": [
+										"{{url1}}"
+									],
+									"path": [
+										"removeMarkedNotifications"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Chat",
+					"item": [
+						{
+							"name": "getChatRoomDetailsList",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is true\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.true;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"result\": {\r",
+											"      \"type\": \"array\",\r",
+											"      \"items\": {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"          \"userIdToList\": {},\r",
+											"          \"userIdTo\": {\r",
+											"            \"type\": \"string\"\r",
+											"          },\r",
+											"          \"userNameTo\": {\r",
+											"            \"type\": \"string\"\r",
+											"          },\r",
+											"          \"userIdFrom\": {},\r",
+											"          \"userNameFrom\": {},\r",
+											"          \"profilePicUrl\": {\r",
+											"            \"type\": \"string\"\r",
+											"          },\r",
+											"          \"unreadMessages\": {\r",
+											"            \"type\": \"number\"\r",
+											"          }\r",
+											"        },\r",
+											"        \"required\": [\r",
+											"          \"userIdToList\",\r",
+											"          \"userIdTo\",\r",
+											"          \"userNameTo\",\r",
+											"          \"userIdFrom\",\r",
+											"          \"userNameFrom\",\r",
+											"          \"profilePicUrl\",\r",
+											"          \"unreadMessages\"\r",
+											"        ]\r",
+											"      }\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"result\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Validate schema\", function()\r",
+											"{\r",
+											"    pm.response.to.have.jsonSchema(schema)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 3000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"UserIdToList\": [\n    \"656dab1601ee3a00010b7918\",\n    \"656e58cad7235200016a7f5d\"\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/getChatRoomDetailsList",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"getChatRoomDetailsList"
+									]
+								},
+								"description": "getChatRoomDetailsList"
+							},
+							"response": [
+								{
+									"name": "Untitled Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"UserIdToList\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/profile/profile/getChatRoomDetailsList",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"profile",
+												"profile",
+												"getChatRoomDetailsList"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "getFirstChatroom",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is true\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.true;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"chatroom\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"myCurrentUser\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"chatroom\",\r",
+											"    \"myCurrentUser\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Validate schema\", function()\r",
+											"{\r",
+											"    pm.response.to.have.jsonSchema(schema)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 1000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"success\": true,\r\n  \"chatroom\": \"656dab1601ee3a00010b7918\",\r\n  \"myCurrentUser\": \"656dab1601ee3a00010b7918\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/getFirstChatroom",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"getFirstChatroom"
+									]
+								},
+								"description": "getFirstChatroom"
+							},
+							"response": [
+								{
+									"name": "Untitled Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/profile/profile/getFirstChatroom",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"profile",
+												"profile",
+												"getFirstChatroom"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Listing",
+					"item": [
+						{
+							"name": "addListing",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"listingId\",responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is true\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.true;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"editFlag\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\",\r",
+											"    \"editFlag\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Validate schema\", function()\r",
+											"{\r",
+											"    pm.response.to.have.jsonSchema(schema)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 8000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(8000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"tags\": [\r\n    {\r\n      \"id\": \"Test1\",\r\n      \"text\": \"Test\"\r\n    }\r\n  ],\r\n  \"availability\": {\r\n    \"dayEntries\": [\r\n      {\r\n        \"Available\": true,\r\n        \"EndTime\": \"17:51\",\r\n        \"StartTime\": \"16:49\"\r\n      },\r\n      {\r\n        \"Available\": true,\r\n        \"EndTime\": \"17.51\",\r\n        \"StartTime\": \"16.49\"\r\n      },\r\n      {\r\n        \"Available\": false,\r\n        \"EndTime\": \"\",\r\n        \"StartTime\": \"\"\r\n      },\r\n      {\r\n        \"Available\": false,\r\n        \"EndTime\": \"\",\r\n        \"StartTime\": \"\"\r\n      },\r\n      {\r\n        \"Available\": false,\r\n        \"EndTime\": \"\",\r\n        \"StartTime\": \"\"\r\n      },\r\n      {\r\n        \"Available\": false,\r\n        \"EndTime\": \"\",\r\n        \"StartTime\": \"\"\r\n      },\r\n      {\r\n        \"Available\": false,\r\n        \"EndTime\": \"\",\r\n        \"StartTime\": \"\"\r\n      }\r\n    ],\r\n    \"endDate\": \"2024-09-15\",\r\n    \"startDate\": \"2024-09-03\"\r\n  },\r\n  \"categoryId\": \"3\",\r\n  \"charge\": 0,\r\n  \"credentials\": true,\r\n  \"description\": \"Test\",\r\n  \"isActive\": true,\r\n  \"isTradable\": true,\r\n  \"locationType\": 1,\r\n  \"serviceType\": 0,\r\n  \"skillTrade\": [\r\n    {\r\n      \"id\": \"1\",\r\n      \"text\": \"Test\"\r\n    }\r\n  ],\r\n  \"subcategoryId\": \"4\",\r\n  \"title\": \"API Testing\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/addListing",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"addListing"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getMultipleServiceListing",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"listingId\",responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is true\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.true;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"editFlag\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\",\r",
+											"    \"editFlag\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 4000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"limit\": 5,\r\n  \"offset\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/getMultipleServiceListing",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"getMultipleServiceListing"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "searchListings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"listingId\",responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is true\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.true;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"editFlag\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\",\r",
+											"    \"editFlag\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 3000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"sortPagination\": {\r\n    \"limit\": 9,\r\n    \"offset\": 0\r\n  },\r\n  \"terms\": {\r\n    \"categoryIndex\": 1,\r\n    \"searchString\": \"QA Engineer\",\r\n    \"subcategoryIndex\": null,\r\n    \"uId\": null\r\n  }\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/searchListings",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"searchListings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sendTradeRequest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"listingId\",responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is true\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.true;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"editFlag\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\",\r",
+											"    \"editFlag\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 3000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n    \"ListingId\":\"6614914d7892af0001f907a8\",\r\n    \"Message\": \"Interested\",\r\n  \"TotalAmount\": 0,\r\n  \"TotalHours\": 0\r\n\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/sendTradeRequest",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"sendTradeRequest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateReceivedRequest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "\n",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":\"66b4200d9dea430001a87b65\",\r\n    \"Status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/updateReceivedRequest",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"updateReceivedRequest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getTradeRequests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"listingId\",responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is true\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.true;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"editFlag\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\",\r",
+											"    \"editFlag\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 3000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"direction\": \"descending\",\r\n  \"limit\": 5,\r\n  \"offset\": 0,\r\n  \"sortBy\": \"createdOn\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/getTradeRequests",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"getTradeRequests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getCategories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"listingId\",responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is true\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.true;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"editFlag\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\",\r",
+											"    \"editFlag\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 3000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n  \"countryDialCode\": \"+64\",\r\n  \"email\": \"aisharya994@gmail.com\",\r\n  \"firstName\": \"aish\",\r\n  \"lastName\": \"arya\",\r\n  \"mobilePhone\": \"2108151490\",\r\n  \"password\": \"Aish@13\",\r\n  \"terms\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/getCategories",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"getCategories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getBalance",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"listingId\",responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is true\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.true;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"editFlag\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\",\r",
+											"    \"editFlag\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 3000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"countryDialCode\": \"+64\",\r\n  \"email\": \"aisharya994@gmail.com\",\r\n  \"firstName\": \"aish\",\r\n  \"lastName\": \"arya\",\r\n  \"mobilePhone\": \"2108151490\",\r\n  \"password\": \"Aish@13\",\r\n  \"terms\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/getBalance",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"getBalance"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getServiceCategoryCount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"listingId\",responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is true\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.true;\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"editFlag\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\",\r",
+											"    \"editFlag\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 3000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"sortPagination\": {\r\n    \"limit\": 9,\r\n    \"offset\": 0\r\n  },\r\n  \"terms\": {\r\n    \"categoryIndex\": null,\r\n    \"searchString\": \"QA Engineer\",\r\n    \"subcategoryIndex\": null,\r\n    \"uId\": null\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/getServiceCategoryCount",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"getServiceCategoryCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetService",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"listingId\",responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"editFlag\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\",\r",
+											"    \"editFlag\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 3000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"countryDialCode\": \"+64\",\r\n  \"email\": \"aisharya994@gmail.com\",\r\n  \"firstName\": \"aish\",\r\n  \"lastName\": \"arya\",\r\n  \"mobilePhone\": \"2108151490\",\r\n  \"password\": \"Aish@13\",\r\n  \"terms\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/GetService",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"GetService"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getWorkSample",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.collectionVariables.set(\"listingId\",responseBody.id);\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"id\": {\r",
+											"      \"type\": \"string\"\r",
+											"    },\r",
+											"    \"editFlag\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"id\",\r",
+											"    \"editFlag\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 3000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"countryDialCode\": \"+64\",\r\n  \"email\": \"aisharya994@gmail.com\",\r\n  \"firstName\": \"aish\",\r\n  \"lastName\": \"arya\",\r\n  \"mobilePhone\": \"2108151490\",\r\n  \"password\": \"Aish@13\",\r\n  \"terms\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/getWorkSample",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"getWorkSample"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Negative Scenarios",
+			"item": [
+				{
+					"name": "Signin",
+					"item": [
+						{
+							"name": "Signin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Parse the response body as JSON\r",
+											"var jsonData = pm.response.json();\r",
+											"// Check if the response is successful\r",
+											"if(jsonData.isSuccess)\r",
+											"{\r",
+											"    // Extract the token from the response\r",
+											"    var token = jsonData.token.token;\r",
+											"\r",
+											"    //set the token as an environment variable\r",
+											"    pm.environment.set(\"authToken\",token);\r",
+											"\r",
+											"    //optionally log the token to the postman\r",
+											"    console.log(\"Token has been set as environment variable:\", token);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"    //handle the case where the response is not successful\r",
+											"    console.log(\"Login was not successful.\");\r",
+											"}\r",
+											"pm.test(\"Response status code is 200\",function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"});\r",
+											"pm.test(\"Login Credentials Valid\",function (){\r",
+											"var jsonData = pm.response.json();\r",
+											"pm.expect(jsonData.isSuccess).to.eql(true)\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"aisharya994@gmail.com\",\r\n    \"password\":\"Aish@30\",\r\n    \"rememberme\":\"false\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/signin",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"signin"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "AddLangwithspecialChar",
+					"item": [
+						{
+							"name": "AddLanguagewithspecialchars",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"level\": \"{{LanguageLevel}}\",\r\n  \"name\": \"{{Language}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/addLanguage",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"addLanguage"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UpdateLangwithalready",
+					"item": [
+						{
+							"name": "updateLanguagewithalreadyaddedlang",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"id\": \"{{LanguageId}}\",\r\n         \"level\":\"{{LanguageLevel}}\",\r\n        \"language\":\"{{Language}}\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/updateLanguage",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"updateLanguage"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "EmptyScenarioOfRegister",
+					"item": [
+						{
+							"name": "EmptyScenarioofRegister",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Parse the response body as JSON\r",
+											"var jsonData = pm.response.json();\r",
+											"// Check if the response is successful\r",
+											"if(jsonData.isSuccess)\r",
+											"{\r",
+											"    // Extract the token from the response\r",
+											"    var token = jsonData.token.token;\r",
+											"\r",
+											"    //set the token as an environment variable\r",
+											"    pm.environment.set(\"authToken\",token);\r",
+											"\r",
+											"    //optionally log the token to the postman\r",
+											"    console.log(\"Token has been set as environment variable:\", token);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"    //handle the case where the response is not successful\r",
+											"    console.log(\"Login was not successful.\");\r",
+											"}\r",
+											"pm.test(\"Response status code is 200\",function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"});\r",
+											"pm.test(\"Login Credentials Valid\",function (){\r",
+											"var jsonData = pm.response.json();\r",
+											"pm.expect(jsonData.isSuccess).to.eql(false)\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"countryDialCode\": \"\",\r\n  \"email\": \"\",\r\n  \"firstName\": \"\",\r\n  \"lastName\": \"\",\r\n  \"mobilePhone\": \"\",\r\n  \"password\": \"{{password}}\",\r\n  \"terms\": {{terms}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/signup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "EmptyScenarioofAddLang",
+					"item": [
+						{
+							"name": "EmptyScenarioofAddLanguage",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is false\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.false;\r",
+											"});\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Language has been deleted successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"language\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"language\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 4000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"level\": \"\",\r\n  \"name\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/addLanguage",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"addLanguage"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "AddSkillwithEmpty",
+					"item": [
+						{
+							"name": "addSkillwithemptyscenario",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is true\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.false;\r",
+											"});\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Skill has been deleted successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"skill\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"skill\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 1000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"ExperienceLevel\": \"\",\r\n \"PersonSkillId\": \"\",\r\n  \"Skill\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/addSkill",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"addSkill"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "AddCertificationemptyscenario",
+					"item": [
+						{
+							"name": "addCertificationemptyscenario",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is false\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.false;\r",
+											"});\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Certification has been updated successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											" var positiveSchema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"var negativeSchema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"    \"success\": {\r",
+											"      \"type\": \"boolean\"\r",
+											"    },\r",
+											"    \"message\": {\r",
+											"      \"type\": \"string\"\r",
+											"    }\r",
+											"  },\r",
+											"  \"required\": [\r",
+											"    \"success\",\r",
+											"    \"message\"\r",
+											"  ]\r",
+											"}\r",
+											"\r",
+											"// pm.test(\"Validate response schema\", function()\r",
+											"// {\r",
+											"//     if(responseBody.success === true)\r",
+											"//     {\r",
+											"//        pm.response.to.have.jsonSchema(positiveSchema);\r",
+											"//     }else if(responseBody.success === false)\r",
+											"//     {\r",
+											"//         pm.response.to.have.jsonSchema(negativeSchema);\r",
+											"//     }else \r",
+											"//     {\r",
+											"//         pm.expect.fail(\"Invalid response\");\r",
+											"//     }\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 2000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzI0ODkyNDQ5LCJleHAiOjE3MjQ4OTYwNDksInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.jK79-TdPHxqNQSspYgoVsXQtNtOeW1N3e5dBpK85lO",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"certificationFrom\": \"\",\r\n  \"certificationName\":\"\",\r\n  \"certificationYear\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/addCertification",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"addCertification"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UpdateSkillwithduplicate",
+					"item": [
+						{
+							"name": "UpdateSkillwithduplicate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is false\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.false;\r",
+											"});\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Skill has been updated successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											"// var schema = {\r",
+											"//   \"type\": \"object\",\r",
+											"//   \"properties\": {\r",
+											"//     \"success\": {\r",
+											"//       \"type\": \"boolean\"\r",
+											"//     },\r",
+											"//     \"id\": {\r",
+											"//       \"type\": \"string\"\r",
+											"//     }\r",
+											"//   },\r",
+											"//   \"required\": [\r",
+											"//     \"success\",\r",
+											"//     \"id\"\r",
+											"//   ]\r",
+											"// }\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 2000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"ExperienceLevel\": \"{{ExperienceLevel}}\",\r\n  \"PersonSkillId\": \"{{PersonSkill}}\",\r\n  \"Skill\": \"{{Skill}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/updateSkill",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"updateSkill"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UpdateSkillwithSpecialChars",
+					"item": [
+						{
+							"name": "UpdateSkillwithspecialchars",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.json();\r",
+											"pm.test(\"Validate status code is 200\", function()\r",
+											"{\r",
+											"    pm.response.to.have.status(200)\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check if success is false\", function()\r",
+											"{\r",
+											"   pm.expect(responseBody.success).to.be.false;\r",
+											"});\r",
+											"\r",
+											" if(responseBody.success)\r",
+											" {\r",
+											"    console.log(\"Skill has been updated successfully\");\r",
+											" }else\r",
+											" {\r",
+											"    console.log(responseBody.message);\r",
+											" }\r",
+											"\r",
+											"// var schema = {\r",
+											"//   \"type\": \"object\",\r",
+											"//   \"properties\": {\r",
+											"//     \"success\": {\r",
+											"//       \"type\": \"boolean\"\r",
+											"//     },\r",
+											"//     \"id\": {\r",
+											"//       \"type\": \"string\"\r",
+											"//     }\r",
+											"//   },\r",
+											"//   \"required\": [\r",
+											"//     \"success\",\r",
+											"//     \"id\"\r",
+											"//   ]\r",
+											"// }\r",
+											"\r",
+											"// pm.test(\"Validate schema\", function()\r",
+											"// {\r",
+											"//     pm.response.to.have.jsonSchema(schema)\r",
+											"// });\r",
+											"\r",
+											"pm.test(\"Validate headers\", function()\r",
+											"{\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is within 2000\", function()\r",
+											"{\r",
+											"   pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"ExperienceLevel\": \"{{updateSkillLevel}}\",\r\n  \"PersonSkillId\": \"{{PersonSkill}}\",\r\n  \"Skill\": \"{{updateSkill}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url1}}/updateSkill",
+									"host": [
+										"{{base_url1}}"
+									],
+									"path": [
+										"updateSkill"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "level",
+			"value": "Fluent",
+			"type": "string"
+		},
+		{
+			"key": "name",
+			"value": "Punjabi",
+			"type": "string"
+		},
+		{
+			"key": "LanguageId",
+			"value": ""
+		},
+		{
+			"key": "SkillId",
+			"value": ""
+		},
+		{
+			"key": "CertificationId",
+			"value": ""
+		},
+		{
+			"key": "listingId",
+			"value": ""
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost:60968/authentication/authentication",
+			"type": "string"
+		},
+		{
+			"key": "base_url1",
+			"value": "http://localhost:60190/profile/profile",
+			"type": "string"
+		},
+		{
+			"key": "url1",
+			"value": "http://localhost:60190/notification/notification",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTcwZjIyYjk1NTJhYjAwMDEzM2IzNGUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjYwOTY4IiwiaWF0IjoxNzMzMjA5ODU2LCJleHAiOjE3MzMyMTM0NTYsInVuaXF1ZV9uYW1lIjoiNjU3MGYyMmI5NTUyYWIwMDAxMzNiMzRlIn0.PtW--BTiC_CIr-K7mUivz68W65vp2myQNXWUsMIpbJQ",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "[object Object]",
+			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": "aisharya994@gmail.com",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "Aish@13",
+			"type": "string"
+		},
+		{
+			"key": "rememberMe",
+			"value": "false",
+			"type": "string"
+		},
+		{
+			"key": "url",
+			"value": "http://localhost:51689/listing/listing",
+			"type": "default"
+		}
+	]
+}

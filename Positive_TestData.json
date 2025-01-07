@@ -1,0 +1,39 @@
+[
+   {
+      "Language": "Punjabi",
+      "LanguageLevel": "Fluent",
+      "LanguageId": "0",
+      "updateLanguage": "English",
+      "updateLanguageLevel": "Conversational",
+       "Skill": "Java",
+      "ExperienceLevel": "Expert",
+      "PersonSkill": 0,
+      "updateSkill": "python",
+      "updateSkillLevel": "Expert",
+      "SkillId": "67386730c7635f00016fcf30",
+      "deleteSkill": "",
+      "deleteSkillLevel": "",
+      "CertificationName": "ISTQB",
+      "CertifiedFrom": "Adobe",
+      "CertificationYear": "2019",
+      "Certificationid": "0",
+      "Languageid":"67281fde69ee920001c21f6c" 
+   },
+   
+   {
+      "FirstName": "aish1",
+      "LastName": "arya1",
+      "availabilityType": "1",
+      "availableHours": "2",
+      "earnTarget": "3",
+      "isDeactivated": "false",
+      "isAuthenticated": "true",
+      "username": "aish1",
+      "Description": "I am a QA tester with three years of experience in manual and automation testing",
+      "personId": 0,
+      "noofMessage": "0",
+      "noofNotification": "0",
+      "success": "true"
+      
+   }
+]
